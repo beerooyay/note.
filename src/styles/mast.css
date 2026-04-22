@@ -1,0 +1,59 @@
+.mast {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.wordmark {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2px 0 7px;
+}
+.wordmark img {
+  height: auto;
+  width: 208px;
+  margin-left: -4px;
+  user-select: none;
+  pointer-events: none;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 3px;
+}
+.tools {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 0 0 auto;
+}
+.tool {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+.icon {
+  width: 20px;
+  height: 20px;
+  user-select: none;
+  color: rgba(255, 255, 255, 0.7);
+  transition: color 0.2s;
+}
+.tool:hover .icon { color: #fff; }
+
+.tool-expand {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.tool-expand.visible {
+  opacity: 1;
+  pointer-events: auto;
+}

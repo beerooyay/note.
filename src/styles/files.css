@@ -1,0 +1,97 @@
+.file-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.file-card {
+  background: var(--panel);
+  border: var(--border);
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+
+.file-x {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: var(--border);
+  color: var(--fg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  opacity: 0.85;
+  transition: opacity 0.15s, border-color 0.15s;
+}
+.file-x:hover { opacity: 1; border-color: var(--accent); }
+
+.file-thumbnail {
+  width: 72px;
+  height: 72px;
+  background: #222;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  color: var(--grey);
+  overflow: hidden;
+}
+.file-thumbnail.img {
+  object-fit: cover;
+  display: block;
+}
+
+.file-name {
+  font-size: 12px;
+  text-align: center;
+  word-break: break-all;
+}
+.file-meta {
+  font-size: 10px;
+  color: var(--grey);
+}
+.file-status {
+  font-size: 10px;
+  color: var(--accent);
+  text-align: center;
+  word-break: break-all;
+}
+
+.file-card-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+}
+.file-card-actions .action-button {
+  padding: 4px 10px;
+  font-size: 11px;
+  border-radius: 10px;
+}
+.file-card-actions .action-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.action-button {
+  background: var(--panel);
+  color: var(--fg);
+  border: var(--border);
+  border-radius: 12px;
+  padding: 6px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  outline: none;
+}
+.action-button:hover { border-color: var(--accent); }

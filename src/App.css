@@ -1,0 +1,7 @@
+@import "./styles/base.css";
+@import "./styles/window.css";
+@import "./styles/mast.css";
+@import "./styles/chat.css";
+@import "./styles/panel.css";
+@import "./styles/files.css";
+@import "./styles/composer.css";

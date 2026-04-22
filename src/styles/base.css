@@ -1,0 +1,35 @@
+@font-face {
+  font-family: 'Manrope';
+  src: url('/Manrope/Manrope-VariableFont_wght.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+:root {
+  --bg: #0f0f0f;
+  --fg: #ffffff;
+  --grey: #aaaaaa;
+  --accent: #2CC8E8;
+  --radius: 16px;
+  --border: 1px solid #333;
+  --panel: rgba(255, 255, 255, 0.04);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-transform: lowercase;
+  font-family: 'Manrope', system-ui;
+  -webkit-font-smoothing: antialiased;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+*::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+html, body, #root {
+  background: transparent;
+  color: var(--fg);
+  height: 100vh;
+  overflow: hidden;
+}
