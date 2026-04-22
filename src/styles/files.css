@@ -5,10 +5,10 @@
 }
 
 .file-card {
-  background: var(--panel);
-  border: var(--border);
-  border-radius: 12px;
-  padding: 10px;
+  background: var(--pill);
+  border: none;
+  border-radius: 16px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,28 +24,28 @@
   height: 22px;
   border-radius: 50%;
   background: var(--bg);
-  border: var(--border);
-  color: var(--fg);
+  border: 1px solid var(--line);
+  color: var(--muted);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   padding: 0;
   opacity: 0.85;
-  transition: opacity 0.15s, border-color 0.15s;
+  transition: opacity 0.15s;
 }
-.file-x:hover { opacity: 1; border-color: var(--accent); }
+.file-x:hover { opacity: 1; color: var(--fg); }
 
 .file-thumbnail {
   width: 72px;
   height: 72px;
-  background: #222;
+  background: rgba(255, 255, 255, 0.04);
   border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 12px;
-  color: var(--grey);
+  color: var(--dim);
   overflow: hidden;
 }
 .file-thumbnail.img {
@@ -57,14 +57,15 @@
   font-size: 12px;
   text-align: center;
   word-break: break-all;
+  color: var(--fg);
 }
 .file-meta {
   font-size: 10px;
-  color: var(--grey);
+  color: var(--dim);
 }
 .file-status {
   font-size: 10px;
-  color: var(--accent);
+  color: var(--muted);
   text-align: center;
   word-break: break-all;
 }
@@ -74,24 +75,15 @@
   gap: 6px;
   margin-top: 4px;
 }
-.file-card-actions .action-button {
-  padding: 4px 10px;
-  font-size: 11px;
-  border-radius: 10px;
-}
-.file-card-actions .action-button:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
 .action-button {
-  background: var(--panel);
+  background: var(--pill);
   color: var(--fg);
-  border: var(--border);
-  border-radius: 12px;
-  padding: 6px 12px;
-  font-size: 12px;
+  border: none;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 11px;
   cursor: pointer;
   outline: none;
 }
-.action-button:hover { border-color: var(--accent); }
+.action-button:hover { background: var(--pill-hover); }
+.action-button:disabled { opacity: 0.4; cursor: not-allowed; }

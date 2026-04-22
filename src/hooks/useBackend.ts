@@ -50,7 +50,7 @@ export function useBackend(h: Handlers) {
       listen<string>("chat:loaded", (e) => {
         try {
           const data = JSON.parse(e.payload);
-          const turns: Msg[] = (data.turns || []).map((t: any) => ({ role: t.role, text: t.content }));
+          const turns: Msg[] = (data.turns || []).map((t: any) => ({ role: t.role, text: t.content, stats: t.stats }));
           ref.current.onLoaded(turns);
         } catch {}
       }),

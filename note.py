@@ -453,6 +453,10 @@ def convodb():
     conn = sqlite3.connect(CONVODB)
     conn.execute("create table if not exists convos (id integer primary key autoincrement, title text, model text, created real, updated real, inp integer default 0, out integer default 0)")
     conn.execute("create table if not exists turns (id integer primary key autoincrement, convo_id integer, role text, content text, ts real)")
+    try:
+        conn.execute("alter table turns add column stats text")
+    except sqlite3.OperationalError:
+        pass
     conn.commit()
     return conn
 
@@ -467,10 +471,11 @@ def convonew(model):
     return cid
 
 
-def convosave(cid, role, content, inp=0, out=0, title=None):
+def convosave(cid, role, content, inp=0, out=0, title=None, stats=None):
     conn = convodb()
     now = time.time()
-    conn.execute("insert into turns (convo_id, role, content, ts) values (?, ?, ?, ?)", (cid, role, content, now))
+    stats_json = json.dumps(stats) if stats else None
+    conn.execute("insert into turns (convo_id, role, content, ts, stats) values (?, ?, ?, ?, ?)", (cid, role, content, now, stats_json))
     if title is not None:
         conn.execute("update convos set title=?, updated=?, inp=inp+?, out=out+? where id=?", (title, now, inp, out, cid))
     else:
@@ -489,11 +494,17 @@ def convolist(limit=50):
 def convoload(cid):
     conn = convodb()
     meta = conn.execute("select id, title, model, updated, inp, out from convos where id=?", (cid,)).fetchone()
-    turns = conn.execute("select role, content from turns where convo_id=? order by id", (cid,)).fetchall()
+    turns = conn.execute("select role, content, stats from turns where convo_id=? order by id", (cid,)).fetchall()
     conn.close()
     if not meta:
         return None
-    return {"id": meta[0], "title": meta[1], "model": meta[2], "updated": meta[3], "inp": meta[4], "out": meta[5], "turns": [{"role": r[0], "content": r[1]} for r in turns]}
+    def turn(r):
+        t = {"role": r[0], "content": r[1]}
+        if r[2]:
+            try: t["stats"] = json.loads(r[2])
+            except Exception: pass
+        return t
+    return {"id": meta[0], "title": meta[1], "model": meta[2], "updated": meta[3], "inp": meta[4], "out": meta[5], "turns": [turn(r) for r in turns]}
 
 
 def convorename(cid, title):
@@ -654,16 +665,7 @@ def streammain():
         title = convotitlefromfirst(user) if turncount == 0 else None
         inp = int((usage or {}).get("input_tokens", 0) or 0)
         outc = int((usage or {}).get("output_tokens", 0) or 0)
-        try:
-            convosave(cid, "user", user, title=title)
-            convosave(cid, "assistant", ans, inp=inp, out=outc)
-        except Exception:
-            pass
-        turncount += 1
-
-        lines = ans.splitlines() or [ans]
-        for line in lines:
-            out.write(f"TOKEN:{line}\n")
+        stats = None
         if usage:
             stats = {
                 "inp": inp,
@@ -671,6 +673,17 @@ def streammain():
                 "tps": round(float(usage.get("generation_tps", 0) or 0), 1),
                 "sec": round(float(elapsed or 0), 2),
             }
+        try:
+            convosave(cid, "user", user, title=title)
+            convosave(cid, "assistant", ans, inp=inp, out=outc, stats=stats)
+        except Exception:
+            pass
+        turncount += 1
+
+        lines = ans.splitlines() or [ans]
+        for line in lines:
+            out.write(f"TOKEN:{line}\n")
+        if stats:
             out.write(f"STATS:{json.dumps(stats)}\n")
         out.write("DONE\n")
         out.flush()

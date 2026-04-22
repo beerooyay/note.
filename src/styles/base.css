@@ -8,11 +8,14 @@
 :root {
   --bg: #0f0f0f;
   --fg: #ffffff;
-  --grey: #aaaaaa;
+  --muted: rgba(255, 255, 255, 0.62);
+  --dim: rgba(255, 255, 255, 0.44);
+  --faint: rgba(255, 255, 255, 0.28);
+  --pill: rgba(255, 255, 255, 0.08);
+  --pill-hover: rgba(255, 255, 255, 0.14);
+  --line: rgba(255, 255, 255, 0.06);
   --accent: #2CC8E8;
   --radius: 16px;
-  --border: 1px solid #333;
-  --panel: rgba(255, 255, 255, 0.04);
 }
 
 * {
